@@ -1,0 +1,36 @@
+---
+title: "Homework 1"
+author: "Shelley Shen"
+date: 09-15-2020
+output: github_document
+---
+
+The following is my solution to Homework 1.
+
+```{r}
+library(tidyverse)
+```
+
+
+# Question 1
+
+Creating a data frame with the specified elements:
+
+```{r}
+prob1_df = tibble(
+  samp = rnorm(10), 
+  samp_gt_0 = samp > 0, 
+  char_vec = c("a", "b", "c", "d", "e", "f", "g", "h", "i", "j"),
+  factor_vec = factor(c("high", "mod", "low", "high", "mod", "low", "high", "mod", "low", "low"))
+  )
+```
+
+Finding the mean of each variable in the data frame: 
+
+```{r}
+mean(pull(prob1_df, samp))
+mean(pull(prob1_df, samp_gt_0))
+mean(pull(prob1_df, char_vec))
+mean(pull(prob1_df, factor_vec))
+```
+
