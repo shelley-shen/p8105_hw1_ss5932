@@ -32,21 +32,21 @@ prob1_df = tibble(
 Finding the mean of each variable in the data frame: 
 
 ```{r warning = FALSE}
-mean(pull(prob1_df, samp))
-mean(pull(prob1_df, samp_gt_0))
-mean(pull(prob1_df, char_vec))
-mean(pull(prob1_df, factor_vec))
+  mean(pull(prob1_df, samp))
+  mean(pull(prob1_df, samp_gt_0))
+  mean(pull(prob1_df, char_vec))
+  mean(pull(prob1_df, factor_vec))
 ```
-  I was able to successfully take the mean of variables that are logical and numeric (samp and samp_gt_0) but 
+  I was able to successfully take the mean of variables that are logical and numeric (samp and samp_gt_0) but not of the character and factor vector variables (char_vec and factor_vec). 
 
 
 Converting the vectors to another type: 
 
 ```{r}
-as.numeric(pull(prob1_df, samp))
-as.numeric(pull(prob1_df, samp_gt_0))
-as.numeric(pull(prob1_df, char_vec))
-as.numeric(pull(prob1_df, factor_vec))
+  as.numeric(pull(prob1_df, samp))
+  as.numeric(pull(prob1_df, samp_gt_0))
+  as.numeric(pull(prob1_df, char_vec))
+  as.numeric(pull(prob1_df, factor_vec))
 ```
 
 
@@ -56,5 +56,48 @@ Load penguins dataset:
 
 ```{r}
 data("penguins", package = "palmerpenguins")
+```
+
+**Description of penguins dataset:**
+
+Names and values of important variables in dataset: 
+```{r}
+  ls(penguins)
+  print(penguins)
+```
+
+Size of dataset:
+
+The penguins dataset has __`r nrow(penguins)`__ rows and __`r ncol(penguins)`__ columns. 
+
+
+*Finding the mean flipper length in mm:*
+
+Convert all values in the variable flipper_length_mm into numeric variables: 
+```{r}
+  as.numeric(pull(penguins, flipper_length_mm))
+```
+
+Finding, recoding, and omitting missing values: 
+```{r}
+  sum(is.na(penguins))
+  penguins$flipper_length_mm[penguins$flipper_length_mm == 99] <- NA
+  na.omit(penguins)
+```
+
+Calculate the mean of flipper lengths: 
+```{r}
+  mean(pull(penguins, flipper_length_mm))
+  mean(penguins, na.rm=TRUE)
+```
+
+summary(penguins)
+
+The mean flipper length of the penguins dataset is `r mean(penguins, flipper_length_mm)`
+
+
+*Scatterplot of flipper length vs. bill length:*
+```{r warning = FALSE}
+  ggplot(penguins, aes(x = bill_depth_mm, y = flipper_length_mm, color = species)) + geom_point()
 ```
 
