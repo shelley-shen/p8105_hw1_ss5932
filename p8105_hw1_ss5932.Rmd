@@ -37,6 +37,8 @@ mean(pull(prob1_df, samp_gt_0))
 mean(pull(prob1_df, char_vec))
 mean(pull(prob1_df, factor_vec))
 ```
+  I was able to successfully take the mean of variables that are logical and numeric (samp and samp_gt_0) but 
+
 
 Converting the vectors to another type: 
 
@@ -48,4 +50,11 @@ as.numeric(pull(prob1_df, factor_vec))
 ```
 
 
+# Question 2:
+
+Load penguins dataset: 
+
+```{r}
+data("penguins", package = "palmerpenguins")
+```
 
