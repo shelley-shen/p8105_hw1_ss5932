@@ -52,29 +52,20 @@ Converting the vectors to another type:
 
 # Question 2:
 
-Load penguins dataset: 
-
 ```{r}
 data("penguins", package = "palmerpenguins")
 ```
 
-**Description of penguins dataset:**
+*Description of penguins dataset:*
 
-Names and values of important variables in dataset: 
-```{r}
-  ls(penguins)
-  print(penguins)
-```
+The penguins dataset has __`r nrow(penguins)`__ rows and __`r ncol(penguins)`__ columns with information on `r names(penguins)`. The dataset has information on the bill length, bill depth, flipper length, body mass, sex, and year of penguins across the different species of `r levels(pull(penguins, "species"))` and on the different islands of `r levels(pull(penguins, "island"))`. 
 
-Size of dataset:
-
-The penguins dataset has __`r nrow(penguins)`__ rows and __`r ncol(penguins)`__ columns. 
 
 
 *Finding the mean flipper length in mm:*
 
 Convert all values in the variable flipper_length_mm into numeric variables: 
-```{r}
+```{r eval = FALSE}
   as.numeric(pull(penguins, flipper_length_mm))
 ```
 
@@ -88,16 +79,14 @@ Finding, recoding, and omitting missing values:
 Calculate the mean of flipper lengths: 
 ```{r}
   mean(pull(penguins, flipper_length_mm))
-  mean(penguins, na.rm=TRUE)
+  mean(penguins, na.rm = TRUE)
 ```
-
-summary(penguins)
 
 The mean flipper length of the penguins dataset is `r mean(penguins, flipper_length_mm)`
 
 
-*Scatterplot of flipper length vs. bill length:*
+## Scatterplot of flipper length (mm) vs. bill length (mm):
 ```{r warning = FALSE}
-  ggplot(penguins, aes(x = bill_depth_mm, y = flipper_length_mm, color = species)) + geom_point()
+  ggplot(penguins, aes(x = bill_length_mm, y = flipper_length_mm, color = species)) + geom_point()
 ```
 
