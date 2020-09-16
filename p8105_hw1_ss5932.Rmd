@@ -5,6 +5,10 @@ date: 09-15-2020
 output: github_document
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
 The following is my solution to Homework 1.
 
 ```{r}
@@ -27,10 +31,21 @@ prob1_df = tibble(
 
 Finding the mean of each variable in the data frame: 
 
-```{r}
+```{r warning = FALSE}
 mean(pull(prob1_df, samp))
 mean(pull(prob1_df, samp_gt_0))
 mean(pull(prob1_df, char_vec))
 mean(pull(prob1_df, factor_vec))
 ```
+
+Converting the vectors to another type: 
+
+```{r}
+as.numeric(pull(prob1_df, samp))
+as.numeric(pull(prob1_df, samp_gt_0))
+as.numeric(pull(prob1_df, char_vec))
+as.numeric(pull(prob1_df, factor_vec))
+```
+
+
 
