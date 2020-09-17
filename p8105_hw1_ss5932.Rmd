@@ -56,33 +56,15 @@ Converting the vectors to another type:
 data("penguins", package = "palmerpenguins")
 ```
 
-*Description of penguins dataset:*
+Description of penguins dataset:
 
-The penguins dataset has __`r nrow(penguins)`__ rows and __`r ncol(penguins)`__ columns with information on `r names(penguins)`. The dataset has information on the bill length, bill depth, flipper length, body mass, sex, and year of penguins across the different species of `r levels(pull(penguins, "species"))` and on the different islands of `r levels(pull(penguins, "island"))`. 
+The penguins dataset has __`r nrow(penguins)`__ rows and __`r ncol(penguins)`__ columns with information on the variables of `r names(penguins)`. The dataset has information on the bill length, bill depth, flipper length, body mass, sex, and year of penguins across the different species of `r levels(pull(penguins, "species"))` and on the different islands of `r levels(pull(penguins, "island"))`. 
 
 
 
-*Finding the mean flipper length in mm:*
+Finding the mean flipper length:
 
-Convert all values in the variable flipper_length_mm into numeric variables: 
-```{r eval = FALSE}
-  as.numeric(pull(penguins, flipper_length_mm))
-```
-
-Finding, recoding, and omitting missing values: 
-```{r}
-  sum(is.na(penguins))
-  penguins$flipper_length_mm[penguins$flipper_length_mm == 99] <- NA
-  na.omit(penguins)
-```
-
-Calculate the mean of flipper lengths: 
-```{r}
-  mean(pull(penguins, flipper_length_mm))
-  mean(penguins, na.rm = TRUE)
-```
-
-The mean flipper length of the penguins dataset is `r mean(penguins, flipper_length_mm)`
+The mean flipper length of the penguins dataset is `r mean(pull(penguins, flipper_length_mm), na.rm = TRUE)`
 
 
 ## Scatterplot of flipper length (mm) vs. bill length (mm):
