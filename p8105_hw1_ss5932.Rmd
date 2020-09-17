@@ -1,7 +1,7 @@
 ---
 title: "Homework 1"
 author: "Shelley Shen"
-date: 09-15-2020
+date: 09/18/2020
 output: github_document
 ---
 
@@ -13,6 +13,7 @@ The following is my solution to Homework 1.
 
 ```{r}
 library(tidyverse)
+library(palmerpenguins)
 ```
 
 
@@ -25,7 +26,7 @@ prob1_df = tibble(
   samp = rnorm(10), 
   samp_gt_0 = samp > 0, 
   char_vec = c("a", "b", "c", "d", "e", "f", "g", "h", "i", "j"),
-  factor_vec = factor(c("high", "mod", "low", "high", "mod", "low", "high", "mod", "low", "low"))
+  factor_vec = factor(c("low", "low", "low", "low", "mod", "mod", "mod", "high", "high", "high"))
   )
 ```
 
@@ -37,38 +38,57 @@ Finding the mean of each variable in the data frame:
   mean(pull(prob1_df, char_vec))
   mean(pull(prob1_df, factor_vec))
 ```
-  I was able to successfully take the mean of variables that are logical and numeric (samp and samp_gt_0) but not of the character and factor vector variables (char_vec and factor_vec). 
+  I was able to successfully take the mean of variables that are logical and numeric (samp and samp_gt_0), but not of the character and factor vector variables (char_vec and factor_vec). 
 
 
 Converting the vectors to another type: 
 
-```{r}
-  as.numeric(pull(prob1_df, samp))
+```{r eval = FALSE}
+  as.numeric(pull(prob1_df, samp)) 
   as.numeric(pull(prob1_df, samp_gt_0))
   as.numeric(pull(prob1_df, char_vec))
   as.numeric(pull(prob1_df, factor_vec))
 ```
+  I could successfully convert the logical and factor variables to numeric, however I could not convert the character variable to a numeric type. 
+  The logical variables of samp and samp_gt_0 can be converted to numeric because theyre're logical and numeric. The factor variable has levels so a numeric value can be assigned. However, the character variable does not have any levels or logic so a numeric value cannot be assigned to the vector. 
+  
+  The mean can be calculated for logical and numeric vectors but not for character and factor vectors because they do not have a numeric value. 
+  
+  
+```{r}
+  as.numeric(pull(prob1_df, samp_gt_0)) * pull(prob1_df, samp)
+  as.factor(pull(prob1_df, samp_gt_0)) * pull(prob1_df, samp)
+  as.numeric(as.factor(pull(prob1_df, samp_gt_0))) * pull(prob1_df, samp)
+```
 
+  The result of the conversion of the logical vector to a factor then multiplied by the random sample is not meaningful because when the variable becomes a factor vector, arithmetic functions are not applicable. 
 
-# Question 2:
+# Question 2
 
 ```{r}
 data("penguins", package = "palmerpenguins")
 ```
 
-Description of penguins dataset:
-
-The penguins dataset has __`r nrow(penguins)`__ rows and __`r ncol(penguins)`__ columns with information on the variables of `r names(penguins)`. The dataset has information on the bill length, bill depth, flipper length, body mass, sex, and year of penguins across the different species of `r levels(pull(penguins, "species"))` and on the different islands of `r levels(pull(penguins, "island"))`. 
-
-
-
-Finding the mean flipper length:
-
-The mean flipper length of the penguins dataset is `r mean(pull(penguins, flipper_length_mm), na.rm = TRUE)`
+```{r}
+  summary(penguins)
+  view(penguins)
+```
 
 
-## Scatterplot of flipper length (mm) vs. bill length (mm):
+_Description of penguins dataset:_
+
+
+
+    The sample size of the dataset is `r nrow(penguins)` penguins.
+    The dataset has __`r nrow(penguins)`__ rows and __`r ncol(penguins)`__ columns. 
+    The categories of variables in the penguin dataset are `r names(penguins)`. 
+    The species of penguins in the dataset are `r levels(pull(penguins, "species"))`, and they live on the islands of `r levels(pull(penguins,     "island"))`. 
+        The mean flipper length of the penguins in the dataset is __`r mean(pull(penguins, flipper_length_mm), na.rm = TRUE)`__ mm. 
+
+
+## Scatterplot of flipper length (mm) vs. bill length (mm)
 ```{r warning = FALSE}
   ggplot(penguins, aes(x = bill_length_mm, y = flipper_length_mm, color = species)) + geom_point()
+  ggsave("penguins_scatterplot.pdf", height = 4, width = 6)
 ```
 
