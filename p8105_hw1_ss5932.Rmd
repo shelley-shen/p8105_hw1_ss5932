@@ -1,7 +1,7 @@
 ---
 title: "Homework 1"
 author: "Shelley Shen"
-date: 09/18/2020
+date: 09/19/2020
 output: github_document
 ---
 
@@ -13,13 +13,12 @@ The following is my solution to Homework 1.
 
 ```{r}
 library(tidyverse)
-library(palmerpenguins)
 ```
 
 
 # Question 1
 
-Creating a data frame with the specified elements:
+*Creating a data frame with the specified elements:*
 
 ```{r}
 prob1_df = tibble(
@@ -30,65 +29,73 @@ prob1_df = tibble(
   )
 ```
 
-Finding the mean of each variable in the data frame: 
+*Finding the mean of each variable in the data frame:*
 
-```{r warning = FALSE}
+```{r collapse = TRUE, warning = FALSE}
   mean(pull(prob1_df, samp))
   mean(pull(prob1_df, samp_gt_0))
   mean(pull(prob1_df, char_vec))
   mean(pull(prob1_df, factor_vec))
 ```
-  I was able to successfully take the mean of variables that are logical and numeric (samp and samp_gt_0), but not of the character and factor vector variables (char_vec and factor_vec). 
+I was able to successfully take the mean of variables that are logical and numeric (samp and samp_gt_0), but not of the character and factor vector variables (char_vec and factor_vec). 
 
 
-Converting the vectors to another type: 
+*Converting the vectors to numeric type:*
 
-```{r eval = FALSE}
+```{r collapse = TRUE, eval = FALSE}
   as.numeric(pull(prob1_df, samp)) 
   as.numeric(pull(prob1_df, samp_gt_0))
   as.numeric(pull(prob1_df, char_vec))
   as.numeric(pull(prob1_df, factor_vec))
 ```
-  I could successfully convert the logical and factor variables to numeric, however I could not convert the character variable to a numeric type. 
-  The logical variables of samp and samp_gt_0 can be converted to numeric because theyre're logical and numeric. The factor variable has levels so a numeric value can be assigned. However, the character variable does not have any levels or logic so a numeric value cannot be assigned to the vector. 
+I could successfully convert the logical and factor variables to numeric, however I could not convert the character variable to a numeric type. The logical variables of samp and samp_gt_0 can be converted to numeric because they're logical and numeric. The factor variable has levels so a numeric value can be assigned in order of the level. However, the character variable does not have any levels or logic so R cannot coerce the variable and a numeric value cannot be assigned to the vector. 
   
-  The mean can be calculated for logical and numeric vectors but not for character and factor vectors because they do not have a numeric value. 
+The result of this conversion helps to explain why earlier, the mean could be calculated for logical and numeric vectors but not for the character vector.  
   
-  
-```{r}
+*Converting the vectors to another type:*
+
+```{r collapse = TRUE, warning = FALSE}
   as.numeric(pull(prob1_df, samp_gt_0)) * pull(prob1_df, samp)
   as.factor(pull(prob1_df, samp_gt_0)) * pull(prob1_df, samp)
   as.numeric(as.factor(pull(prob1_df, samp_gt_0))) * pull(prob1_df, samp)
 ```
 
-  The result of the conversion of the logical vector to a factor then multiplied by the random sample is not meaningful because when the variable becomes a factor vector, arithmetic functions are not applicable. 
+The result of the conversion of the logical vector to a factor then multiplied by the random sample is not meaningful because when the variable becomes a factor vector, arithmetic functions are not applicable. 
 
 # Question 2
 
-```{r}
+```{r echo = FALSE}
+  library(palmerpenguins)
+```
+
+```{r echo = FALSE}
 data("penguins", package = "palmerpenguins")
 ```
 
-```{r}
+*Description of penguins dataset:*
+
+```{r eval = FALSE}
   summary(penguins)
   view(penguins)
 ```
 
+The sample size of the dataset is `r nrow(penguins)` penguins.
+The dataset has `r nrow(penguins)` rows and `r ncol(penguins)` columns. 
+    
+The penguins dataset collected information on `r ncol(penguins)` variables, and those variables are `r names(penguins)`. 
+The three species of penguins in the dataset are `r levels(pull(penguins, "species"))`, and they live on the islands of `r levels(pull(penguins, "island"))`. 
 
-_Description of penguins dataset:_
+The bill length ranges from `r min(pull(penguins, bill_length_mm), na.rm = TRUE)` mm to `r max(pull(penguins, bill_length_mm), na.rm = TRUE)` mm.
+The bill depth ranges from `r min(pull(penguins, bill_depth_mm), na.rm = TRUE)` mm to `r max(pull(penguins, bill_depth_mm), na.rm = TRUE)` mm. 
+The flipper length ranges from `r min(pull(penguins, flipper_length_mm), na.rm = TRUE)` mm to `r max(pull(penguins, flipper_length_mm), na.rm = TRUE)` mm. 
+The average body mass of penguins is `r mean(pull(penguins, body_mass_g), na.rm = TRUE)` g. 
+The number of female penguins vs. male penguins in the dataset is as follows: `r table(pull(penguins, sex))`. 
 
-
-
-    The sample size of the dataset is `r nrow(penguins)` penguins.
-    The dataset has __`r nrow(penguins)`__ rows and __`r ncol(penguins)`__ columns. 
-    The categories of variables in the penguin dataset are `r names(penguins)`. 
-    The species of penguins in the dataset are `r levels(pull(penguins, "species"))`, and they live on the islands of `r levels(pull(penguins,     "island"))`. 
-        The mean flipper length of the penguins in the dataset is __`r mean(pull(penguins, flipper_length_mm), na.rm = TRUE)`__ mm. 
+The mean flipper length of the penguins in the dataset is `r mean(pull(penguins, flipper_length_mm), na.rm = TRUE)` mm. 
 
 
 ## Scatterplot of flipper length (mm) vs. bill length (mm)
-```{r warning = FALSE}
+```{r echo = FALSE, warning = FALSE}
   ggplot(penguins, aes(x = bill_length_mm, y = flipper_length_mm, color = species)) + geom_point()
   ggsave("penguins_scatterplot.pdf", height = 4, width = 6)
 ```
-
